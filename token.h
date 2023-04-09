@@ -1,10 +1,6 @@
 #pragma once
 
 typedef enum {
-    T_I,
-    T_N,
-    T_T,
-
     T_INT,
     T_BOOL,
     T_CHAR,
@@ -21,9 +17,9 @@ typedef enum {
     T_ERROR
 } token_type;
 
-struct Token {
+typedef struct {
     token_type type;
 
     char *start;
     char *end;
-};
+} Token;

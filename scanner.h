@@ -8,5 +8,5 @@ struct Scanner {
 
     unsigned int size;
     unsigned int capacity;
-    struct Token **tokens;
+    Token **tokens;
 };

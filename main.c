@@ -12,11 +12,11 @@ void init_scanner(char *src) {
 
     scanner.size = 0;
     scanner.capacity = 4;
-    scanner.tokens = (struct Token **) malloc(scanner.capacity * sizeof(struct Token *));
+    scanner.tokens = (Token **) malloc(scanner.capacity * sizeof(Token *));
 }
 
-struct Token *create_token(token_type type, int offset) {
-    struct Token *t = malloc(sizeof(struct Token));
+Token *create_token(token_type type, int offset) {
+    Token *t = malloc(sizeof(Token));
     t->type = type;
     t->start = scanner.start;
     
@@ -35,26 +35,34 @@ char next() {
     return *(scanner.ip++);
 }
 
-struct Token *scan_token(void) {
+int match(char *str, int len) {
+  for (int i = 0; i < len; i++) {
+    char c = next();
+    if (c != str[i]) {
+      scanner.ip -= i;
+      return 0;
+    } 
+  }
+  return 1;
+}
+
+Token *scan_token(void) {
     char c = next();
     scanner.start = scanner.ip;
 
     switch (c) {
-        case 'i':
-            return create_token(T_I, 0);
-        case 'n':
-            return create_token(T_N, 0);
-        case 't':
-            return create_token(T_T, 0);
-        case EOF:
-            return create_token(T_EOF, 0);
-        default:
-            break;
+      case 'i':
+        if (match("nt", 2)) return create_token(T_INTKEY, 2);
+        break;
+      case EOF:
+        return create_token(T_EOF, 0);
+      default:
+        break;
     }
     return create_token(T_ERROR, 0);
 }
 
-void add_token(struct Token *t) {
+void add_token(Token *t) {
     if (scanner.size >= scanner.capacity) {
         scanner.capacity *= 2;
     }
@@ -62,7 +70,7 @@ void add_token(struct Token *t) {
 }
 
 void scan(void) {
-    struct Token *t;
+    Token *t;
     do {
         t = scan_token();
         add_token(t);
