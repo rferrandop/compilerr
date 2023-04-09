@@ -51,13 +51,33 @@ Token *scan_token(void) {
     scanner.start = scanner.ip;
 
     switch (c) {
-      case 'i':
-        if (match("nt", 2)) return create_token(T_INTKEY, 2);
-        break;
-      case EOF:
-        return create_token(T_EOF, 0);
-      default:
-        break;
+        case 'b':
+            if (match("ool", 3)) return create_token(T_BOOLKEY, 3);
+            break;
+        case 'c':
+            if (match("har", 3)) return create_token(T_CHARKEY, 3);
+            break;
+        case 'd':
+            if (match("ef", 2)) return create_token(T_DEFKEY, 2);
+            break;
+        case 'e':
+            if (match("lse", 3)) return create_token(T_ELSEKEY, 3);
+            break;
+        case 'f':
+            if (match("loat", 4)) return create_token(T_FLOATKEY, 4);
+            break;
+        case 'i':
+            if (match("f", 1)) return create_token(T_IFKEY, 2);
+            if (match("nt", 2)) return create_token(T_INTKEY, 2);
+            break;
+        case ':':
+            return create_token(T_COLON, 0);
+        case ';':
+            return create_token(T_SEMICOLON, 0);
+        case EOF:
+            return create_token(T_EOF, 0);
+        default:
+            break;
     }
     return create_token(T_ERROR, 0);
 }

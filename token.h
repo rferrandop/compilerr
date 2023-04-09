@@ -12,6 +12,13 @@ typedef enum {
     T_CHARKEY,
     T_FLOATKEY,
     T_DOUBLEKEY,
+    T_IFKEY,
+    T_ELSEKEY,
+    T_DEFKEY,
+    T_STRUCTKEY,
+
+    T_COLON, // :
+    T_SEMICOLON, // ;
 
     T_EOF,
     T_ERROR
